@@ -1,0 +1,9 @@
+[
+  {"scenario":"HAPPY_PAYMENT","canonicalState":"CAPTURED","incidentType":"NORMAL","recoveryAction":"DO_NOT_RETRY"},
+  {"scenario":"TIMEOUT_BEFORE_PROVIDER_PROCESSING","canonicalState":"CAPTURED","incidentType":"NORMAL","recoveryAction":"DO_NOT_RETRY"},
+  {"scenario":"TIMEOUT_AFTER_PROVIDER_CAPTURE","canonicalState":"CAPTURED","incidentType":"AMBIGUOUS_PAYMENT","recoveryAction":"DO_NOT_RETRY"},
+  {"scenario":"DUPLICATE_CLIENT_RETRY","canonicalState":"CAPTURED","incidentType":"NORMAL","recoveryAction":"DO_NOT_RETRY"},
+  {"scenario":"DUPLICATE_WEBHOOK","canonicalState":"CAPTURED","incidentType":"WEBHOOK_DUPLICATE","recoveryAction":"DO_NOT_RETRY"},
+  {"scenario":"OUT_OF_ORDER_WEBHOOK","canonicalState":"SETTLED","incidentType":"WEBHOOK_OUT_OF_ORDER","recoveryAction":"DO_NOT_RETRY"},
+  {"scenario":"MISSING_SETTLEMENT","canonicalState":"CAPTURED","incidentType":"NORMAL","recoveryAction":"DO_NOT_RETRY"}
+]

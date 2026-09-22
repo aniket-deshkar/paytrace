@@ -1,0 +1,1 @@
+package com.paytrace.webhook; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface WebhookInboxRepository extends JpaRepository<WebhookInboxEntity,UUID>{ boolean existsByProviderEventIdAndDuplicateFalse(String id); }

@@ -1,0 +1,1 @@
+package com.paytrace.ledger; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface LedgerTransactionRepository extends JpaRepository<LedgerTransactionEntity,UUID>{ boolean existsByPaymentId(UUID paymentId); List<LedgerTransactionEntity> findByPaymentId(UUID paymentId); }

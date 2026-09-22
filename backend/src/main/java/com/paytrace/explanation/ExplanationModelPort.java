@@ -1,0 +1,1 @@
+package com.paytrace.explanation; import com.paytrace.decision.*; import com.paytrace.incident.*; import com.paytrace.payment.*; import com.paytrace.recovery.*; import java.util.*; public interface ExplanationModelPort { Optional<IncidentExplanation> explain(PaymentView payment,List<Incident> incidents,DecisionAssessment decision,RecoveryRecommendation recommendation); }

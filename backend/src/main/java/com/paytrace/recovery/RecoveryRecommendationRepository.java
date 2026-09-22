@@ -1,0 +1,1 @@
+package com.paytrace.recovery; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface RecoveryRecommendationRepository extends JpaRepository<RecoveryRecommendationEntity,UUID>{ List<RecoveryRecommendationEntity> findTop1ByPaymentIdOrderByCreatedAtDesc(UUID id); }

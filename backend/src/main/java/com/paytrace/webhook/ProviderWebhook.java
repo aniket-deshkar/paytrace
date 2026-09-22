@@ -1,0 +1,1 @@
+package com.paytrace.webhook; import com.paytrace.payment.PaymentEventType; import jakarta.validation.constraints.*; import java.time.Instant; import java.util.UUID; public record ProviderWebhook(@NotBlank String providerEventId,@NotNull UUID paymentId,@NotNull PaymentEventType eventType,@NotNull Instant occurredAt,@NotBlank @Size(max=4000) String payload){}

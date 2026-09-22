@@ -1,0 +1,1 @@
+package com.paytrace.decision; import com.paytrace.incident.IncidentType; public record DecisionAssessment(IncidentType incidentClass,double duplicateRisk,boolean retrySafe,boolean manualReviewRequired,boolean financialImpactLikely,double recoveryComplexity,String source){}

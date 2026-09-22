@@ -1,0 +1,1 @@
+package com.paytrace.recovery; import java.time.Instant; import java.util.UUID; public record RecoveryRecommendation(UUID recommendationId,UUID paymentId,RecoveryAction action,String rationale,Instant createdAt){}

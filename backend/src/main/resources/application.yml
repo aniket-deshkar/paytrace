@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  max-http-request-header-size: 16KB
+spring:
+  application.name: paytrace
+  datasource:
+    url: jdbc:h2:file:${PAYTRACE_DATA_DIR:./data}/paytrace;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate.ddl-auto: validate
+    open-in-view: false
+  flyway.enabled: true
+  mvc.async.request-timeout: 10s
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:offline-placeholder}
+paytrace:
+  ai:
+    enabled: ${PAYTRACE_AI_ENABLED:false}
+    model: ${PAYTRACE_OPENAI_MODEL:gpt-5.6-luna}
+  recovery:
+    duplicate-risk-manual-review-threshold: 0.80
+    settlement-wait-hours: 72

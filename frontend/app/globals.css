@@ -1,0 +1,2 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+* { box-sizing: border-box; } body { margin:0; background:#0b1020; color:#e5e7eb; font-family:Arial, Helvetica, sans-serif; } button { font:inherit; } .card { background:#121a2c; border:1px solid #25324a; border-radius:10px; } .muted { color:#9caec8; } .tag { border-radius:999px; padding:3px 8px; font-size:12px; font-weight:700; } .good { background:#123c34;color:#8df0ca; } .warn { background:#4a3510;color:#fcd77c; } .danger { background:#4b2028;color:#f5a7b2; }

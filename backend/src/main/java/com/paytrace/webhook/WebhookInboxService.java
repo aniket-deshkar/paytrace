@@ -1,0 +1,6 @@
+package com.paytrace.webhook;
+import com.paytrace.common.Hashing; import com.paytrace.payment.*; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional;
+@Service public class WebhookInboxService { private final WebhookInboxRepository inbox; private final PaymentEventRepository events; public WebhookInboxService(WebhookInboxRepository inbox,PaymentEventRepository events){this.inbox=inbox;this.events=events;}
+ @Transactional public WebhookOutcome receive(ProviderWebhook hook){boolean duplicate=inbox.existsByProviderEventIdAndDuplicateFalse(hook.providerEventId());String hash=Hashing.sha256(hook.payload());inbox.save(new WebhookInboxEntity(hook.providerEventId(),hook.paymentId(),hash,hook.occurredAt(),duplicate));events.save(new PaymentEventEntity(hook.paymentId(),duplicate?PaymentEventType.WEBHOOK_DUPLICATE:PaymentEventType.WEBHOOK_RECEIVED,EventSource.WEBHOOK,hook.occurredAt(),hook.providerEventId(),hash,"{}"));if(!duplicate)events.save(new PaymentEventEntity(hook.paymentId(),hook.eventType(),EventSource.WEBHOOK,hook.occurredAt(),hook.providerEventId(),hash,"{}"));return new WebhookOutcome(duplicate);}
+ public record WebhookOutcome(boolean duplicate){}
+}

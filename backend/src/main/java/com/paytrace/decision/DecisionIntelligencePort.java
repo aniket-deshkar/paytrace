@@ -1,0 +1,1 @@
+package com.paytrace.decision; import com.paytrace.incident.Incident; import com.paytrace.payment.PaymentView; import java.util.*; public interface DecisionIntelligencePort { DecisionAssessment assess(PaymentView payment,List<Incident> incidents); }

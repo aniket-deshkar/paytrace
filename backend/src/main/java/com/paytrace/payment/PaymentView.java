@@ -1,0 +1,1 @@
+package com.paytrace.payment; import java.math.BigDecimal; import java.time.Instant; import java.util.UUID; public record PaymentView(UUID paymentId,String merchantReference,String idempotencyKey,BigDecimal amount,String currency,PaymentState observedState,PaymentState canonicalState,String providerPaymentId,Instant createdAt,boolean replayed){}

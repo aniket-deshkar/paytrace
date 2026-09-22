@@ -1,0 +1,1 @@
+package com.paytrace.ledger; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface LedgerEntryRepository extends JpaRepository<LedgerEntryEntity,UUID>{ List<LedgerEntryEntity> findByTransactionId(UUID transactionId); }

@@ -1,0 +1,3 @@
+package com.paytrace.ledger;
+import jakarta.persistence.*; import java.time.Instant; import java.util.UUID;
+@Entity @Table(name="ledger_transactions") public class LedgerTransactionEntity { @Id private UUID id; @Column(name="payment_id",nullable=false) private UUID paymentId; @Column(nullable=false,unique=true) private String reference; @Column(name="created_at",nullable=false) private Instant createdAt; protected LedgerTransactionEntity(){} public LedgerTransactionEntity(UUID paymentId,String reference){id=UUID.randomUUID();this.paymentId=paymentId;this.reference=reference;createdAt=Instant.now();} public UUID id(){return id;} public UUID paymentId(){return paymentId;} public String reference(){return reference;} }

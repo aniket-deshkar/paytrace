@@ -1,0 +1,10 @@
+package com.paytrace.ledger;
+import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional; import java.math.BigDecimal; import java.util.*;
+@Service public class DoubleEntryLedger {
+ private final LedgerTransactionRepository transactions; private final LedgerEntryRepository entries; public DoubleEntryLedger(LedgerTransactionRepository t,LedgerEntryRepository e){transactions=t;entries=e;}
+ @Transactional public void postCapture(UUID paymentId, BigDecimal amount,String currency){if(transactions.existsByPaymentId(paymentId))return; post(paymentId,"capture:"+paymentId,List.of(new LedgerLine("GATEWAY_CLEARING",EntryDirection.DEBIT,amount,currency),new LedgerLine("CUSTOMER_RECEIVABLE",EntryDirection.CREDIT,amount,currency)));}
+ @Transactional public void post(UUID paymentId,String reference,List<LedgerLine> lines){validate(lines);var tx=transactions.save(new LedgerTransactionEntity(paymentId,reference));entries.saveAll(lines.stream().map(l->new LedgerEntryEntity(tx.id(),l.account(),l.direction(),l.amount(),l.currency())).toList());}
+ public boolean balanced(UUID txId){return entries.findByTransactionId(txId).stream().map(e->e.direction()==EntryDirection.DEBIT?e.amount():e.amount().negate()).reduce(BigDecimal.ZERO,BigDecimal::add).compareTo(BigDecimal.ZERO)==0;}
+ private void validate(List<LedgerLine> lines){var debit=lines.stream().filter(l->l.direction()==EntryDirection.DEBIT).map(LedgerLine::amount).reduce(BigDecimal.ZERO,BigDecimal::add);var credit=lines.stream().filter(l->l.direction()==EntryDirection.CREDIT).map(LedgerLine::amount).reduce(BigDecimal.ZERO,BigDecimal::add);if(debit.compareTo(credit)!=0)throw new LedgerImbalanceException("Debits and credits must balance"); if(lines.stream().anyMatch(l->l.amount().signum()<=0))throw new IllegalArgumentException("Ledger amounts must be positive");}
+ public record LedgerLine(String account,EntryDirection direction,BigDecimal amount,String currency){} public static class LedgerImbalanceException extends RuntimeException{public LedgerImbalanceException(String message){super(message);}}
+}

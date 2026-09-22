@@ -1,0 +1,1 @@
+package com.paytrace.incident; import java.time.Instant; import java.util.*; public record Incident(UUID incidentId,UUID paymentId,IncidentType incidentType,Severity severity,Instant detectedAt,List<String> evidence,List<String> affectedComponents,List<String> deterministicFacts){}

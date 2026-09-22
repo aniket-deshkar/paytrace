@@ -1,0 +1,1 @@
+package com.paytrace.explanation; import java.util.*; public record IncidentExplanation(String incidentSummary,String probableOperationalCause,String financialImpact,String recoveryExplanation,List<String> operatorActions,String source){}

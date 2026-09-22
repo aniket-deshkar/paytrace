@@ -1,0 +1,1 @@
+package com.paytrace.simulator; import com.paytrace.investigation.InvestigationView; import java.util.*; public record ScenarioRun(UUID runId,Scenario scenario,UUID paymentId,InvestigationView investigation,List<String> observations){}

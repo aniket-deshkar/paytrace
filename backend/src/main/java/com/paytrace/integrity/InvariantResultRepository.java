@@ -1,0 +1,1 @@
+package com.paytrace.integrity; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface InvariantResultRepository extends JpaRepository<InvariantResultEntity,UUID>{ List<InvariantResultEntity> findByPaymentId(UUID paymentId); }

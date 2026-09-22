@@ -1,6 +1,6 @@
 # PayTrace
 
-PayTrace is a local-first payment incident investigation and safe-recovery engine. It reconstructs the financial record across merchant requests, provider events, webhooks, ledger entries, retries, and settlement evidence. The primary system-of-record logic is deterministic; optional intelligence is bounded to assessment and explanation.
+PayTrace is a payment incident investigation and safe-recovery engine. It reconstructs the financial record across merchant requests, provider events, webhooks, ledger entries, retries, and settlement evidence. The primary system-of-record logic is deterministic; optional intelligence is bounded to assessment and explanation.
 
 ## Problem
 
@@ -24,7 +24,7 @@ flowchart TD
 - Idempotency keys protect payment creation and concurrent retries.
 - A persisted mock provider models response-loss and capture faults without real money movement.
 - A webhook inbox retains duplicate-delivery evidence and prevents repeated financial mutation.
-- A local double-entry ledger rejects unbalanced journals and uses `BigDecimal` monetary values.
+- A double-entry ledger rejects unbalanced journals and uses `BigDecimal` monetary values.
 - Controlled simulator scenarios exercise payment ambiguity and recovery behavior.
 
 ## Payment State Model
@@ -33,7 +33,7 @@ The model includes `CREATED`, `INITIATED`, `AUTHORIZED`, `CAPTURED`, `SETTLED`, 
 
 ## Idempotency
 
-`POST /api/v1/payments` requires an `Idempotency-Key`. A matching payload returns the original logical payment. A different payload on the same key returns a conflict. The local in-process key gate and a persistent unique constraint ensure that concurrent duplicate requests produce one payment, one provider capture, and one ledger transaction in the local single-node deployment.
+`POST /api/v1/payments` requires an `Idempotency-Key`. A matching payload returns the original logical payment. A different payload on the same key returns a conflict. A key-specific in-process gate and a persistent unique constraint ensure that concurrent duplicate requests produce one payment, one provider capture, and one ledger transaction.
 
 ## Webhook Processing
 
@@ -53,7 +53,7 @@ PayTrace never executes a refund, reversal, or external financial operation. It 
 
 ## Decision Intelligence
 
-`DecisionIntelligencePort` is a narrow boundary for a Jev adapter. The local deterministic stub is the default. `ExplanationModelPort` provides an offline evidence summary; a Spring AI OpenAI adapter can be enabled only when credentials are supplied. Neither boundary decides financial state transitions or recovery policy.
+`DecisionIntelligencePort` is a narrow boundary for a Jev adapter. The deterministic stub is the default. `ExplanationModelPort` provides an evidence summary; a Spring AI OpenAI adapter can be enabled only when credentials are supplied. Neither boundary decides financial state transitions or recovery policy.
 
 ## Technology Stack
 
@@ -61,13 +61,13 @@ PayTrace never executes a refund, reversal, or external financial operation. It 
 - Spring AI dependency boundary for OpenAI explanation integration
 - Next.js, TypeScript, Tailwind CSS, React Flow, Lucide
 
-## Local Setup
+## Setup
 
 Use Java 21 or newer and Maven 3.9 or newer. Java 27 source compatibility is avoided because the provided runtime exposes Java 21; no preview features are used.
 
 ```powershell
 Copy-Item .env.example .env
-.\scripts\start-local.ps1
+.\scripts\start.ps1
 ```
 
 The frontend opens at `http://localhost:3000`; the backend runs at `http://localhost:8080`.
@@ -92,7 +92,7 @@ Scenario fixtures specify their expected canonical state, incident class, invari
 
 ## Security Model
 
-The service accepts synthetic data only. It validates API payloads, bounds webhook payload text, uses decimal currency values, keeps secrets in local environment variables, and does not expose secrets to the browser. It does not connect to real payment networks or perform money movement.
+The service accepts synthetic data only. It validates API payloads, bounds webhook payload text, uses decimal currency values, keeps secrets in environment variables, and does not expose secrets to the browser. It does not connect to real payment networks or perform money movement.
 
 ## Repository Structure
 
